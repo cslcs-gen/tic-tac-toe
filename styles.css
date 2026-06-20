@@ -165,7 +165,7 @@ h1 {
   grid-template-columns: 1fr auto;
   gap: 2px 12px;
   align-items: center;
-  margin-bottom: 14px;
+  margin-top: 14px;
   padding: 10px 12px;
   border: 1px solid rgba(32, 33, 36, 0.09);
   border-radius: 8px;
@@ -268,6 +268,14 @@ h1 {
 .actions {
   gap: 10px;
   margin-top: 18px;
+}
+
+.site-footer {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 650;
+  text-align: center;
 }
 
 .primary,
