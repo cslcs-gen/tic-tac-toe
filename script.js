@@ -10,7 +10,7 @@ const winsO = document.querySelector("#winsO");
 const draws = document.querySelector("#draws");
 const scoreX = document.querySelector("#scoreX");
 const scoreO = document.querySelector("#scoreO");
-const visitorPanel = document.querySelector(".visitor-panel");
+const visitorPanel = document.querySelector(".visitor-panel") || document.querySelector(".visit-count");
 const visitorCount = document.querySelector("#visitorCount");
 const visitorNote = document.querySelector("#visitorNote");
 
@@ -197,7 +197,7 @@ twoPlayerButton.addEventListener("click", () => setMode("two-player"));
 computerButton.addEventListener("click", () => setMode("computer"));
 
 async function syncVisitorCount() {
-  if (!visitorPanel || !visitorCount || !visitorNote) {
+  if (!visitorPanel || !visitorCount) {
     return;
   }
 
@@ -216,7 +216,10 @@ async function syncVisitorCount() {
     const count = Number(data.count || 0);
     visitorPanel.dataset.state = "ready";
     visitorCount.textContent = new Intl.NumberFormat().format(count);
-    visitorNote.textContent = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
+    visitorCount.title = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
+    if (visitorNote) {
+      visitorNote.textContent = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
+    }
 
     if (shouldIncrement) {
       window.localStorage.setItem("xotrix:lastVisitCountedAt", String(now));
@@ -224,7 +227,10 @@ async function syncVisitorCount() {
   } catch (error) {
     visitorPanel.dataset.state = "error";
     visitorCount.textContent = "--";
-    visitorNote.textContent = "Visitor count temporarily unavailable";
+    visitorCount.title = "Visitor count temporarily unavailable";
+    if (visitorNote) {
+      visitorNote.textContent = "Visitor count temporarily unavailable";
+    }
   }
 }
 
