@@ -37,8 +37,12 @@ button {
   padding: 24px;
 }
 
-.game-shell {
+.app-stack {
   width: min(100%, 430px);
+}
+
+.game-shell {
+  width: 100%;
   padding: 22px;
   border: 1px solid rgba(32, 33, 36, 0.08);
   border-radius: 8px;
@@ -270,12 +274,33 @@ h1 {
   margin-top: 18px;
 }
 
-.site-footer {
-  margin-top: 16px;
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-top: 10px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.68rem;
   font-weight: 650;
   text-align: center;
+}
+
+.visit-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.visit-count strong {
+  color: var(--ink);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.visit-count[data-state="error"] strong {
+  color: var(--muted);
 }
 
 .primary,
