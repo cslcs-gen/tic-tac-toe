@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tic Tac Toe</title>
+  <title>Tic Tac Xoxo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,7 +13,13 @@
         <div class="topbar">
           <div>
             <p class="eyebrow">Local game</p>
-            <h1 id="game-title">Tic Tac Toe</h1>
+            <div class="brand-title">
+              <span class="title-icon" aria-hidden="true">
+                <span>X</span>
+                <span>O</span>
+              </span>
+              <h1 id="game-title">Tic Tac Xoxo</h1>
+            </div>
           </div>
           <button class="icon-button" id="resetButton" type="button" aria-label="Reset game" title="Reset game">
             <span aria-hidden="true">&#8635;</span>
@@ -23,6 +29,12 @@
         <div class="mode-control" aria-label="Game mode">
           <button class="mode-button active" id="twoPlayerButton" type="button">2 players</button>
           <button class="mode-button" id="computerButton" type="button">Vs computer</button>
+        </div>
+
+        <div class="size-control" aria-label="Board size">
+          <button class="size-button active" type="button" data-size="3">3x3</button>
+          <button class="size-button" type="button" data-size="4">4x4</button>
+          <button class="size-button" type="button" data-size="5">5x5</button>
         </div>
 
         <div class="scoreboard" aria-label="Scoreboard">
@@ -42,17 +54,7 @@
 
         <p class="status" id="status" aria-live="polite">X to move</p>
 
-        <div class="board" id="board" role="grid" aria-label="Tic tac toe board">
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 1"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 2"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 3"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 4"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 5"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 6"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 7"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 8"></button>
-          <button class="cell" type="button" role="gridcell" aria-label="Cell 9"></button>
-        </div>
+        <div class="board" id="board" role="grid" aria-label="Tic Tac Xoxo board"></div>
 
         <div class="actions">
           <button class="primary" id="newRoundButton" type="button">New round</button>

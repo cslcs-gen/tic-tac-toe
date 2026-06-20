@@ -1,10 +1,11 @@
-const cells = Array.from(document.querySelectorAll(".cell"));
+const boardElement = document.querySelector("#board");
 const statusText = document.querySelector("#status");
 const resetButton = document.querySelector("#resetButton");
 const newRoundButton = document.querySelector("#newRoundButton");
 const clearScoresButton = document.querySelector("#clearScoresButton");
 const twoPlayerButton = document.querySelector("#twoPlayerButton");
 const computerButton = document.querySelector("#computerButton");
+const sizeButtons = Array.from(document.querySelectorAll(".size-button"));
 const winsX = document.querySelector("#winsX");
 const winsO = document.querySelector("#winsO");
 const draws = document.querySelector("#draws");
@@ -17,18 +18,9 @@ const visitorNote = document.querySelector("#visitorNote");
 const VISITOR_COUNTER_URL = "https://api.counterapi.dev/v1/xotrix/visits";
 const VISITOR_COUNT_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
-const winningLines = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
-let board = Array(9).fill("");
+let boardSize = 3;
+let board = createEmptyBoard(boardSize);
+let cells = [];
 let currentPlayer = "X";
 let roundOver = false;
 let gameMode = "two-player";
@@ -38,6 +30,43 @@ let score = {
   O: 0,
   draws: 0,
 };
+
+function createEmptyBoard(size) {
+  return Array(size * size).fill("");
+}
+
+function createWinningLines(size) {
+  const lines = [];
+
+  for (let row = 0; row < size; row += 1) {
+    lines.push(Array.from({ length: size }, (_, column) => row * size + column));
+  }
+
+  for (let column = 0; column < size; column += 1) {
+    lines.push(Array.from({ length: size }, (_, row) => row * size + column));
+  }
+
+  lines.push(Array.from({ length: size }, (_, index) => index * size + index));
+  lines.push(Array.from({ length: size }, (_, index) => index * size + (size - 1 - index)));
+
+  return lines;
+}
+
+function createBoardCells() {
+  boardElement.textContent = "";
+  boardElement.style.setProperty("--board-size", boardSize);
+  boardElement.setAttribute("aria-label", `${boardSize} by ${boardSize} Tic Tac Xoxo board`);
+
+  cells = board.map((_, index) => {
+    const cell = document.createElement("button");
+    cell.className = "cell";
+    cell.type = "button";
+    cell.setAttribute("role", "gridcell");
+    cell.addEventListener("click", () => playTurn(index));
+    boardElement.append(cell);
+    return cell;
+  });
+}
 
 function render() {
   cells.forEach((cell, index) => {
@@ -54,12 +83,15 @@ function render() {
   scoreO.classList.toggle("active", currentPlayer === "O" && !roundOver);
   twoPlayerButton.classList.toggle("active", gameMode === "two-player");
   computerButton.classList.toggle("active", gameMode === "computer");
+  sizeButtons.forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.size) === boardSize);
+  });
 }
 
 function findWinner() {
-  for (const line of winningLines) {
-    const [a, b, c] = line;
-    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+  for (const line of createWinningLines(boardSize)) {
+    const [a] = line;
+    if (board[a] && line.every((index) => board[index] === board[a])) {
       return { player: board[a], line };
     }
   }
@@ -123,8 +155,8 @@ function queueComputerMove() {
 function chooseComputerMove() {
   return findBestMove("O")
     ?? findBestMove("X")
-    ?? pickFirstOpen([4])
-    ?? pickFirstOpen([0, 2, 6, 8])
+    ?? pickFirstOpen(getCenterIndexes())
+    ?? pickFirstOpen(getCornerIndexes())
     ?? pickRandomOpen();
 }
 
@@ -150,6 +182,29 @@ function pickFirstOpen(indexes) {
   return indexes.find((index) => !board[index]) ?? null;
 }
 
+function getCenterIndexes() {
+  if (boardSize % 2 === 1) {
+    return [Math.floor(board.length / 2)];
+  }
+
+  const upperLeftCenter = (boardSize / 2 - 1) * boardSize + (boardSize / 2 - 1);
+  return [
+    upperLeftCenter,
+    upperLeftCenter + 1,
+    upperLeftCenter + boardSize,
+    upperLeftCenter + boardSize + 1,
+  ];
+}
+
+function getCornerIndexes() {
+  return [
+    0,
+    boardSize - 1,
+    board.length - boardSize,
+    board.length - 1,
+  ];
+}
+
 function pickRandomOpen() {
   const open = board
     .map((value, index) => value ? null : index)
@@ -163,12 +218,12 @@ function pickRandomOpen() {
 }
 
 function newRound() {
-  board = Array(9).fill("");
+  board = createEmptyBoard(boardSize);
   currentPlayer = "X";
   roundOver = false;
   computerThinking = false;
   statusText.textContent = "X to move";
-  cells.forEach((cell) => cell.classList.remove("win"));
+  createBoardCells();
   render();
 }
 
@@ -186,15 +241,19 @@ function setMode(mode) {
   clearScores();
 }
 
-cells.forEach((cell, index) => {
-  cell.addEventListener("click", () => playTurn(index));
-});
+function setBoardSize(size) {
+  boardSize = size;
+  clearScores();
+}
 
 resetButton.addEventListener("click", newRound);
 newRoundButton.addEventListener("click", newRound);
 clearScoresButton.addEventListener("click", clearScores);
 twoPlayerButton.addEventListener("click", () => setMode("two-player"));
 computerButton.addEventListener("click", () => setMode("computer"));
+sizeButtons.forEach((button) => {
+  button.addEventListener("click", () => setBoardSize(Number(button.dataset.size)));
+});
 
 async function syncVisitorCount() {
   if (!visitorPanel || !visitorCount) {
@@ -234,5 +293,6 @@ async function syncVisitorCount() {
   }
 }
 
+createBoardCells();
 render();
 syncVisitorCount();

@@ -74,9 +74,43 @@ button {
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 10vw, 3.2rem);
+  font-size: 2.35rem;
   line-height: 0.95;
   letter-spacing: 0;
+}
+
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-icon {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex: 0 0 auto;
+  width: 46px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid var(--grid);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(32, 33, 36, 0.08);
+}
+
+.title-icon span {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  color: var(--x);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.title-icon span + span {
+  color: var(--o);
+  border-left: 2px solid var(--grid);
 }
 
 .icon-button {
@@ -95,18 +129,28 @@ h1 {
   font-size: 1.45rem;
 }
 
-.mode-control {
+.mode-control,
+.size-control {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 6px;
-  margin-bottom: 14px;
   padding: 4px;
   border: 1px solid rgba(32, 33, 36, 0.1);
   border-radius: 8px;
   background: #f6f8fa;
 }
 
-.mode-button {
+.mode-control {
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 10px;
+}
+
+.size-control {
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 14px;
+}
+
+.mode-button,
+.size-button {
   min-width: 0;
   min-height: 38px;
   border: 0;
@@ -118,7 +162,8 @@ h1 {
   font-weight: 800;
 }
 
-.mode-button.active {
+.mode-button.active,
+.size-button.active {
   color: var(--ink);
   background: #fff;
   box-shadow: 0 5px 14px rgba(32, 33, 36, 0.09);
@@ -201,8 +246,8 @@ h1 {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--board-size, 3), 1fr);
+  grid-template-rows: repeat(var(--board-size, 3), minmax(0, 1fr));
   gap: 10px;
   width: 100%;
   aspect-ratio: 1;
@@ -242,7 +287,7 @@ h1 {
   content: "";
   position: absolute;
   width: 64%;
-  height: 10px;
+  height: clamp(5px, 12%, 10px);
   border-radius: 999px;
   background: var(--x);
 }
@@ -260,7 +305,7 @@ h1 {
   position: absolute;
   width: 58%;
   aspect-ratio: 1;
-  border: 10px solid var(--o);
+  border: clamp(5px, 1.8vw, 10px) solid var(--o);
   border-radius: 50%;
 }
 
@@ -330,6 +375,18 @@ h1 {
 
   .game-shell {
     padding: 16px;
+  }
+
+  .brand-title {
+    gap: 8px;
+  }
+
+  .title-icon {
+    width: 40px;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 
   .board {
