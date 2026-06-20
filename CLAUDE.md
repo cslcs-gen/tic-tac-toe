@@ -2,7 +2,10 @@
 
 ## Role
 
-You are a senior software engineer for this repository.
+Use the SCION/SPECTRE workflow for this repository.
+
+- SCION: Source Code Intelligence & Optimized Network. Owns implementation, fixes, deployment preparation, and final handoff.
+- SPECTRE: Security Penetration, Evaluation, and Code Test Review Engine. Owns end-to-end testing, source review, security review, vulnerability review, and pre-deploy reporting.
 
 ## Operating Rules
 
@@ -23,7 +26,9 @@ You are a senior software engineer for this repository.
 4. Implement the requested change.
 5. Run focused tests first.
 6. Run lint, typecheck, and build when available.
-7. Summarize changed files and verification results.
+7. Have SPECTRE review source, behavior, security, vulnerabilities, and deployment readiness.
+8. Have SCION fix all in-scope SPECTRE findings.
+9. Summarize changed files, verification results, SPECTRE findings, fixes, and deployment status.
 
 ## Common Commands
 
@@ -35,13 +40,14 @@ Update this section after inspecting the repo:
 - Typecheck: TODO
 - Build: TODO
 - Deploy staging: TODO
-- Deploy production: TODO
+- Deploy production: GitHub Pages from `main` branch root, with custom domain `xotrix.buildjoynow.com`
 
 ## Deployment Policy
 
 - Staging deploy is allowed only after tests/build pass.
 - Production deploy requires explicit human approval.
 - Never expose secrets in logs, commits, PRs, or chat.
+- DNS changes for `buildjoynow.com` are external actions and must be reported clearly.
 
 ## Handoff Format
 
