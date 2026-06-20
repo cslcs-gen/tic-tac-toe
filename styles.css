@@ -160,6 +160,41 @@ h1 {
   font-weight: 700;
 }
 
+.visitor-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(32, 33, 36, 0.09);
+  border-radius: 8px;
+  background: rgba(35, 100, 170, 0.07);
+}
+
+.visitor-label,
+.visitor-note {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.visitor-note {
+  grid-column: 1 / -1;
+  font-weight: 600;
+}
+
+.visitor-panel strong {
+  color: var(--x);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.visitor-panel[data-state="error"] strong {
+  color: var(--muted);
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -4,6 +4,7 @@
 
 Use the SCION/SPECTRE workflow for this repository.
 
+- ORACLE: Optimized Research, Analysis, and Contextual Logic for Enterprise. Owns product research, market evidence, user problem discovery, metrics, and recommendations before build approval.
 - SCION: Source Code Intelligence & Optimized Network. Owns implementation, fixes, deployment preparation, and final handoff.
 - SPECTRE: Security Penetration, Evaluation, and Code Test Review Engine. Owns end-to-end testing, source review, security review, vulnerability review, and pre-deploy reporting.
 
@@ -22,13 +23,14 @@ Use the SCION/SPECTRE workflow for this repository.
 
 1. Inspect relevant files and existing tests.
 2. Identify the package manager, framework, and available scripts.
-3. For broad or risky work, provide a short plan before editing.
-4. Implement the requested change.
-5. Run focused tests first.
-6. Run lint, typecheck, and build when available.
-7. Have SPECTRE review source, behavior, security, vulnerabilities, and deployment readiness.
-8. Have SCION fix all in-scope SPECTRE findings.
-9. Summarize changed files, verification results, SPECTRE findings, fixes, and deployment status.
+3. For new app/game ideas, have ORACLE produce a metric-backed product recommendation before implementation.
+4. For broad or risky work, provide a short plan before editing.
+5. Implement the requested change.
+6. Run focused tests first.
+7. Run lint, typecheck, and build when available.
+8. Have SPECTRE review source, behavior, security, vulnerabilities, and deployment readiness.
+9. Have SCION fix all in-scope SPECTRE findings.
+10. Summarize changed files, ORACLE recommendation if relevant, verification results, SPECTRE findings, fixes, and deployment status.
 
 ## Common Commands
 

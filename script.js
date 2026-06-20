@@ -10,6 +10,12 @@ const winsO = document.querySelector("#winsO");
 const draws = document.querySelector("#draws");
 const scoreX = document.querySelector("#scoreX");
 const scoreO = document.querySelector("#scoreO");
+const visitorPanel = document.querySelector(".visitor-panel");
+const visitorCount = document.querySelector("#visitorCount");
+const visitorNote = document.querySelector("#visitorNote");
+
+const VISITOR_COUNTER_URL = "https://api.counterapi.dev/v1/xotrix/visits";
+const VISITOR_COUNT_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
 const winningLines = [
   [0, 1, 2],
@@ -190,4 +196,37 @@ clearScoresButton.addEventListener("click", clearScores);
 twoPlayerButton.addEventListener("click", () => setMode("two-player"));
 computerButton.addEventListener("click", () => setMode("computer"));
 
+async function syncVisitorCount() {
+  if (!visitorPanel || !visitorCount || !visitorNote) {
+    return;
+  }
+
+  try {
+    const now = Date.now();
+    const lastCountedAt = Number(window.localStorage.getItem("xotrix:lastVisitCountedAt") || 0);
+    const shouldIncrement = now - lastCountedAt > VISITOR_COUNT_INTERVAL_MS;
+    const endpoint = shouldIncrement ? `${VISITOR_COUNTER_URL}/up` : VISITOR_COUNTER_URL;
+    const response = await fetch(endpoint, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Counter returned ${response.status}`);
+    }
+
+    const data = await response.json();
+    const count = Number(data.count || 0);
+    visitorPanel.dataset.state = "ready";
+    visitorCount.textContent = new Intl.NumberFormat().format(count);
+    visitorNote.textContent = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
+
+    if (shouldIncrement) {
+      window.localStorage.setItem("xotrix:lastVisitCountedAt", String(now));
+    }
+  } catch (error) {
+    visitorPanel.dataset.state = "error";
+    visitorCount.textContent = "--";
+    visitorNote.textContent = "Visitor count temporarily unavailable";
+  }
+}
+
 render();
+syncVisitorCount();
