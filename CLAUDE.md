@@ -1,4 +1,4 @@
-﻿# Project Engineering Instructions
+# Project Engineering Instructions
 
 ## Role
 
