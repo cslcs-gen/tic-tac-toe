@@ -8,66 +8,66 @@
 </head>
 <body>
   <main class="app" aria-labelledby="game-title">
-    <section class="game-shell">
-      <div class="topbar">
-        <div>
-          <p class="eyebrow">Local game</p>
-          <h1 id="game-title">Tic Tac Toe</h1>
+    <div class="app-stack">
+      <section class="game-shell">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Local game</p>
+            <h1 id="game-title">Tic Tac Toe</h1>
+          </div>
+          <button class="icon-button" id="resetButton" type="button" aria-label="Reset game" title="Reset game">
+            <span aria-hidden="true">&#8635;</span>
+          </button>
         </div>
-        <button class="icon-button" id="resetButton" type="button" aria-label="Reset game" title="Reset game">
-          <span aria-hidden="true">&#8635;</span>
-        </button>
-      </div>
 
-      <div class="mode-control" aria-label="Game mode">
-        <button class="mode-button active" id="twoPlayerButton" type="button">2 players</button>
-        <button class="mode-button" id="computerButton" type="button">Vs computer</button>
-      </div>
-
-      <div class="scoreboard" aria-label="Scoreboard">
-        <div class="score active" id="scoreX">
-          <span class="score-label">X</span>
-          <strong id="winsX">0</strong>
+        <div class="mode-control" aria-label="Game mode">
+          <button class="mode-button active" id="twoPlayerButton" type="button">2 players</button>
+          <button class="mode-button" id="computerButton" type="button">Vs computer</button>
         </div>
-        <div class="score">
-          <span class="score-label">Draw</span>
-          <strong id="draws">0</strong>
+
+        <div class="scoreboard" aria-label="Scoreboard">
+          <div class="score active" id="scoreX">
+            <span class="score-label">X</span>
+            <strong id="winsX">0</strong>
+          </div>
+          <div class="score">
+            <span class="score-label">Draw</span>
+            <strong id="draws">0</strong>
+          </div>
+          <div class="score" id="scoreO">
+            <span class="score-label">O</span>
+            <strong id="winsO">0</strong>
+          </div>
         </div>
-        <div class="score" id="scoreO">
-          <span class="score-label">O</span>
-          <strong id="winsO">0</strong>
+
+        <p class="status" id="status" aria-live="polite">X to move</p>
+
+        <div class="board" id="board" role="grid" aria-label="Tic tac toe board">
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 1"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 2"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 3"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 4"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 5"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 6"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 7"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 8"></button>
+          <button class="cell" type="button" role="gridcell" aria-label="Cell 9"></button>
         </div>
-      </div>
 
-      <p class="status" id="status" aria-live="polite">X to move</p>
+        <div class="actions">
+          <button class="primary" id="newRoundButton" type="button">New round</button>
+          <button class="secondary" id="clearScoresButton" type="button">Clear scores</button>
+        </div>
+      </section>
 
-      <div class="board" id="board" role="grid" aria-label="Tic tac toe board">
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 1"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 2"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 3"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 4"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 5"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 6"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 7"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 8"></button>
-        <button class="cell" type="button" role="gridcell" aria-label="Cell 9"></button>
-      </div>
-
-      <div class="visitor-panel" aria-label="Visitor count">
-        <span class="visitor-label">Xotrix visits</span>
-        <strong id="visitorCount">...</strong>
-        <span class="visitor-note" id="visitorNote">Syncing public counter</span>
-      </div>
-
-      <div class="actions">
-        <button class="primary" id="newRoundButton" type="button">New round</button>
-        <button class="secondary" id="clearScoresButton" type="button">Clear scores</button>
-      </div>
-
-      <footer class="site-footer">
-        Copyright 2026 buildjoynow.com. All rights reserved.
+      <footer class="app-footer">
+        <span class="visit-count" aria-label="Visitor count">
+          <span aria-hidden="true">&#128065;</span>
+          <strong id="visitorCount">...</strong>
+        </span>
+        <span class="copyright">Copyright 2026 buildjoynow.com. All rights reserved.</span>
       </footer>
-    </section>
+    </div>
   </main>
 
   <script src="script.js"></script>
