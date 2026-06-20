@@ -9,5 +9,5 @@ Open `index.html` in a browser.
 ## Files
 
 - `index.html` - game layout
-- `styles.css` - visual design
-- `script.js` - game logic and scoring
+- `xoxo.css` - visual design
+- `xoxo.js` - game logic and scoring
