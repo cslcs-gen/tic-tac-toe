@@ -41,12 +41,6 @@
 
       <p class="status" id="status" aria-live="polite">X to move</p>
 
-      <div class="visitor-panel" aria-label="Visitor count">
-        <span class="visitor-label">Xotrix visits</span>
-        <strong id="visitorCount">...</strong>
-        <span class="visitor-note" id="visitorNote">Syncing public counter</span>
-      </div>
-
       <div class="board" id="board" role="grid" aria-label="Tic tac toe board">
         <button class="cell" type="button" role="gridcell" aria-label="Cell 1"></button>
         <button class="cell" type="button" role="gridcell" aria-label="Cell 2"></button>
@@ -59,10 +53,20 @@
         <button class="cell" type="button" role="gridcell" aria-label="Cell 9"></button>
       </div>
 
+      <div class="visitor-panel" aria-label="Visitor count">
+        <span class="visitor-label">Xotrix visits</span>
+        <strong id="visitorCount">...</strong>
+        <span class="visitor-note" id="visitorNote">Syncing public counter</span>
+      </div>
+
       <div class="actions">
         <button class="primary" id="newRoundButton" type="button">New round</button>
         <button class="secondary" id="clearScoresButton" type="button">Clear scores</button>
       </div>
+
+      <footer class="site-footer">
+        Copyright 2026 buildjoynow.com. All rights reserved.
+      </footer>
     </section>
   </main>
 
