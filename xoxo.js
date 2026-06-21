@@ -17,6 +17,7 @@ const visitorNote = document.querySelector("#visitorNote");
 
 const VISITOR_COUNTER_URL = "https://api.counterapi.dev/v1/xotrix/visits";
 const VISITOR_COUNT_INTERVAL_MS = 6 * 60 * 60 * 1000;
+const VISITOR_STORAGE_KEY = "xotrix:lastVisitCountedAt";
 
 let boardSize = 3;
 let board = createEmptyBoard(boardSize);
@@ -262,17 +263,9 @@ async function syncVisitorCount() {
 
   try {
     const now = Date.now();
-    const lastCountedAt = Number(window.localStorage.getItem("xotrix:lastVisitCountedAt") || 0);
+    const lastCountedAt = getStoredVisitTime();
     const shouldIncrement = now - lastCountedAt > VISITOR_COUNT_INTERVAL_MS;
-    const endpoint = shouldIncrement ? `${VISITOR_COUNTER_URL}/up` : VISITOR_COUNTER_URL;
-    const response = await fetch(endpoint, { cache: "no-store" });
-
-    if (!response.ok) {
-      throw new Error(`Counter returned ${response.status}`);
-    }
-
-    const data = await response.json();
-    const count = Number(data.count || 0);
+    const count = await fetchVisitorCount(shouldIncrement);
     visitorPanel.dataset.state = "ready";
     visitorCount.textContent = new Intl.NumberFormat().format(count);
     visitorCount.title = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
@@ -281,7 +274,7 @@ async function syncVisitorCount() {
     }
 
     if (shouldIncrement) {
-      window.localStorage.setItem("xotrix:lastVisitCountedAt", String(now));
+      storeVisitTime(now);
     }
   } catch (error) {
     visitorPanel.dataset.state = "error";
@@ -291,6 +284,49 @@ async function syncVisitorCount() {
       visitorNote.textContent = "Visitor count temporarily unavailable";
     }
   }
+}
+
+function getStoredVisitTime() {
+  try {
+    return Number(window.localStorage.getItem(VISITOR_STORAGE_KEY) || 0);
+  } catch (error) {
+    return 0;
+  }
+}
+
+function storeVisitTime(timestamp) {
+  try {
+    window.localStorage.setItem(VISITOR_STORAGE_KEY, String(timestamp));
+  } catch (error) {
+    // Visitor count should still render when browser storage is blocked.
+  }
+}
+
+async function fetchVisitorCount(shouldIncrement) {
+  const endpoints = shouldIncrement
+    ? [`${VISITOR_COUNTER_URL}/up`, VISITOR_COUNTER_URL]
+    : [VISITOR_COUNTER_URL];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, { cache: "no-store" });
+
+      if (!response.ok) {
+        continue;
+      }
+
+      const data = await response.json();
+      const count = Number(data.count);
+
+      if (Number.isFinite(count)) {
+        return count;
+      }
+    } catch (error) {
+      // Try the read-only endpoint before showing the unavailable state.
+    }
+  }
+
+  throw new Error("Visitor counter unavailable");
 }
 
 createBoardCells();
