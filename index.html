@@ -4,7 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tic Tac Xoxo</title>
-  <link rel="stylesheet" href="xoxo.css">
+  <meta name="description" content="Play Tic Tac Xoxo in 3x3, 4x4, or 5x5 mode with a friend or against the computer.">
+  <link rel="canonical" href="https://xotrix.buildjoynow.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xotrix.buildjoynow.com/">
+  <meta property="og:title" content="Tic Tac Xoxo">
+  <meta property="og:description" content="Play Tic Tac Xoxo in 3x3, 4x4, or 5x5 mode with a friend or against the computer.">
+  <meta property="og:image" content="https://xotrix.buildjoynow.com/xotrix-og.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tic Tac Xoxo">
+  <meta name="twitter:description" content="Play Tic Tac Xoxo in 3x3, 4x4, or 5x5 mode with a friend or against the computer.">
+  <meta name="twitter:image" content="https://xotrix.buildjoynow.com/xotrix-og.svg">
+  <link rel="icon" href="xotrix-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="xotrix-logo.svg">
+  <link rel="stylesheet" href="xoxo-share.css">
 </head>
 <body>
   <main class="app" aria-labelledby="game-title">
@@ -21,9 +34,14 @@
               <h1 id="game-title">Tic Tac Xoxo</h1>
             </div>
           </div>
-          <button class="icon-button" id="resetButton" type="button" aria-label="Reset game" title="Reset game">
-            <span aria-hidden="true">&#8635;</span>
-          </button>
+          <div class="topbar-actions">
+            <button class="icon-button" id="shareButton" type="button" aria-label="Share Tic Tac Xoxo" title="Share Tic Tac Xoxo">
+              <span aria-hidden="true">&#8599;</span>
+            </button>
+            <button class="icon-button" id="resetButton" type="button" aria-label="Reset game" title="Reset game">
+              <span aria-hidden="true">&#8635;</span>
+            </button>
+          </div>
         </div>
 
         <div class="mode-control" aria-label="Game mode">
@@ -63,14 +81,20 @@
       </section>
 
       <footer class="app-footer">
-        <span class="visit-count" aria-label="Visitor count">
-          Visitors: <strong id="visitorCount">...</strong>
-        </span>
+        <img
+          class="visitor-badge"
+          src="https://hits.sh/xotrix.buildjoynow.com.svg?label=Visitors&color=1b998b&labelColor=202124"
+          width="70"
+          height="20"
+          alt="Visitor count"
+          loading="eager"
+          referrerpolicy="no-referrer"
+        >
         <span class="copyright">Copyright 2026 buildjoynow.com. All rights reserved.</span>
       </footer>
     </div>
   </main>
 
-  <script src="xoxo-counter.js"></script>
+  <script src="xoxo-share.js"></script>
 </body>
 </html>

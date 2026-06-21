@@ -1,6 +1,7 @@
 const boardElement = document.querySelector("#board");
 const statusText = document.querySelector("#status");
 const resetButton = document.querySelector("#resetButton");
+const shareButton = document.querySelector("#shareButton");
 const newRoundButton = document.querySelector("#newRoundButton");
 const clearScoresButton = document.querySelector("#clearScoresButton");
 const twoPlayerButton = document.querySelector("#twoPlayerButton");
@@ -11,13 +12,9 @@ const winsO = document.querySelector("#winsO");
 const draws = document.querySelector("#draws");
 const scoreX = document.querySelector("#scoreX");
 const scoreO = document.querySelector("#scoreO");
-const visitorPanel = document.querySelector(".visitor-panel") || document.querySelector(".visit-count");
-const visitorCount = document.querySelector("#visitorCount");
-const visitorNote = document.querySelector("#visitorNote");
-
-const VISITOR_COUNTER_URL = "https://api.counterapi.dev/v1/xotrix/visits";
-const VISITOR_COUNT_INTERVAL_MS = 6 * 60 * 60 * 1000;
-const VISITOR_STORAGE_KEY = "xotrix:lastVisitCountedAt";
+const SHARE_TITLE = "Tic Tac Xoxo";
+const SHARE_TEXT = "Play Tic Tac Xoxo in 3x3, 4x4, or 5x5 mode.";
+const SHARE_URL = "https://xotrix.buildjoynow.com/";
 
 let boardSize = 3;
 let board = createEmptyBoard(boardSize);
@@ -256,79 +253,40 @@ sizeButtons.forEach((button) => {
   button.addEventListener("click", () => setBoardSize(Number(button.dataset.size)));
 });
 
-async function syncVisitorCount() {
-  if (!visitorPanel || !visitorCount) {
-    return;
-  }
+async function shareGame() {
+  const shareData = {
+    title: SHARE_TITLE,
+    text: SHARE_TEXT,
+    url: SHARE_URL,
+  };
 
-  try {
-    const now = Date.now();
-    const lastCountedAt = getStoredVisitTime();
-    const shouldIncrement = now - lastCountedAt > VISITOR_COUNT_INTERVAL_MS;
-    const count = await fetchVisitorCount(shouldIncrement);
-    visitorPanel.dataset.state = "ready";
-    visitorCount.textContent = new Intl.NumberFormat().format(count);
-    visitorCount.title = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
-    if (visitorNote) {
-      visitorNote.textContent = shouldIncrement ? "Counted this browser session" : "Count already recorded recently";
-    }
-
-    if (shouldIncrement) {
-      storeVisitTime(now);
-    }
-  } catch (error) {
-    visitorPanel.dataset.state = "error";
-    visitorCount.textContent = "--";
-    visitorCount.title = "Visitor count temporarily unavailable";
-    if (visitorNote) {
-      visitorNote.textContent = "Visitor count temporarily unavailable";
-    }
-  }
-}
-
-function getStoredVisitTime() {
-  try {
-    return Number(window.localStorage.getItem(VISITOR_STORAGE_KEY) || 0);
-  } catch (error) {
-    return 0;
-  }
-}
-
-function storeVisitTime(timestamp) {
-  try {
-    window.localStorage.setItem(VISITOR_STORAGE_KEY, String(timestamp));
-  } catch (error) {
-    // Visitor count should still render when browser storage is blocked.
-  }
-}
-
-async function fetchVisitorCount(shouldIncrement) {
-  const endpoints = shouldIncrement
-    ? [`${VISITOR_COUNTER_URL}/up`, VISITOR_COUNTER_URL]
-    : [VISITOR_COUNTER_URL];
-
-  for (const endpoint of endpoints) {
+  if (navigator.share) {
     try {
-      const response = await fetch(endpoint, { cache: "no-store" });
-
-      if (!response.ok) {
-        continue;
-      }
-
-      const data = await response.json();
-      const count = Number(data.count);
-
-      if (Number.isFinite(count)) {
-        return count;
-      }
+      await navigator.share(shareData);
+      return;
     } catch (error) {
-      // Try the read-only endpoint before showing the unavailable state.
+      if (error.name === "AbortError") {
+        return;
+      }
     }
   }
 
-  throw new Error("Visitor counter unavailable");
+  try {
+    await navigator.clipboard.writeText(SHARE_URL);
+    shareButton.title = "Link copied";
+    shareButton.setAttribute("aria-label", "Tic Tac Xoxo link copied");
+    window.setTimeout(() => {
+      shareButton.title = "Share Tic Tac Xoxo";
+      shareButton.setAttribute("aria-label", "Share Tic Tac Xoxo");
+    }, 1600);
+  } catch (error) {
+    window.location.href = `mailto:?subject=${encodeURIComponent(SHARE_TITLE)}&body=${encodeURIComponent(`${SHARE_TEXT} ${SHARE_URL}`)}`;
+  }
+}
+
+if (shareButton) {
+  shareButton.addEventListener("click", shareGame);
 }
 
 createBoardCells();
 render();
-syncVisitorCount();
