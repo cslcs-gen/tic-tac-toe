@@ -120,6 +120,8 @@ h1 {
 }
 
 .icon-button {
+  display: inline-grid;
+  place-items: center;
   width: 44px;
   height: 44px;
   border: 1px solid rgba(32, 33, 36, 0.14);
@@ -133,6 +135,24 @@ h1 {
   display: block;
   transform: translateY(-1px);
   font-size: 1.45rem;
+}
+
+.icon-button svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 0 auto;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.share-icon circle {
+  fill: #fff;
+  stroke: currentColor;
 }
 
 .mode-control,
@@ -342,6 +362,20 @@ h1 {
   width: 70px;
   height: 20px;
   border: 0;
+}
+
+.version {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 2px 7px;
+  border: 1px solid rgba(32, 33, 36, 0.08);
+  border-radius: 4px;
+  color: #555;
+  background: #f9fafb;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .primary,
