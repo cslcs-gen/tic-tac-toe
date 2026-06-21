@@ -10,4 +10,4 @@ Open `index.html` in a browser.
 
 - `index.html` - game layout
 - `xoxo.css` - visual design
-- `xoxo.js` - game logic and scoring
+- `xoxo-counter.js` - game logic, scoring, and visitor counter
